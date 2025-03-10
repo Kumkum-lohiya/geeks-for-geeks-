@@ -1,0 +1,82 @@
+//{ Driver Code Starts
+// Initial template for C++
+
+#include <bits/stdc++.h>
+using namespace std;
+
+
+// } Driver Code Ends
+
+// User code template
+
+class Solution {
+  public:
+    vector<int> getFloorAndCeil(int x, vector<int> &arr) {
+        int n = arr.size();
+        sort(arr.begin(), arr.end()); 
+
+    
+        int start = 0, end = n - 1;
+        int floorIndex = -1, ceilIndex = -1;
+
+        while (start <= end) {
+            int mid = start + (end - start) / 2;
+            if (arr[mid] == x) {
+                return {arr[mid], arr[mid]}; 
+            }
+            if (arr[mid] < x) {
+                floorIndex = mid;  
+                start = mid + 1;   
+            } else {
+                end = mid - 1;
+            }
+        }
+
+        
+        start = 0, end = n - 1;
+
+        while (start <= end) {
+            int mid = start + (end - start) / 2;
+            if (arr[mid] >= x) {
+                ceilIndex = mid; 
+                end = mid - 1;    
+            } else {
+                start = mid + 1;
+            }
+        }
+
+        int floorValue = (floorIndex == -1) ? -1 : arr[floorIndex];
+        int ceilValue = (ceilIndex == -1) ? -1 : arr[ceilIndex];
+
+        return {floorValue, ceilValue};
+    }
+};
+
+
+//{ Driver Code Starts.
+
+int main() {
+    int t;
+    cin >> t;
+    cin.ignore(); // Ignore the newline character after t
+    while (t--) {
+        vector<int> arr;
+        int x;
+        string input;
+        cin >> x;
+        cin.ignore();
+
+        getline(cin, input); // Read the entire line for the array elements
+        stringstream ss(input);
+        int number;
+        while (ss >> number) {
+            arr.push_back(number);
+        }
+
+        Solution ob;
+        auto ans = ob.getFloorAndCeil(x, arr);
+        cout << ans[0] << " " << ans[1] << "\n~\n";
+    }
+    return 0;
+}
+// } Driver Code Ends
